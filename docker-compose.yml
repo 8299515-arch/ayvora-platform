@@ -1,0 +1,49 @@
+
+services:
+  web:
+    build:
+      context: ./apps/web
+    command: npm run dev
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://api:8000
+    volumes:
+      - ./apps/web:/app
+      - /app/node_modules
+    depends_on:
+      - api
+
+  api:
+    build:
+      context: ./services/api
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8000:8000"
+    environment:
+      AYVORA_DATABASE_URL: postgresql+psycopg://ayvora:ayvora@postgres:5432/ayvora
+      AYVORA_REDIS_URL: redis://redis:6379/0
+    volumes:
+      - ./services/api:/app
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ayvora
+      POSTGRES_USER: ayvora
+      POSTGRES_PASSWORD: ayvora
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+volumes:
+  postgres_data:

@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+
+# Environment
+.env
+.env.*
+
+# Next.js
+.next/
+out/
+
+# Node
+node_modules/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
