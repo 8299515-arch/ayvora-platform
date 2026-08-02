@@ -3,6 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.v1 import ai, catalog, integrations
 from app.core.config import settings
+from app.core.database import Base, engine
+from app.models.product import Product
 
 app = FastAPI(
     title=settings.app_name,
@@ -10,6 +12,12 @@ app = FastAPI(
     docs_url="/api/docs",
     redoc_url="/api/redoc"
 )
+
+
+@app.on_event("startup")
+def startup():
+    Base.metadata.create_all(bind=engine)
+
 
 app.add_middleware(
     CORSMiddleware,
