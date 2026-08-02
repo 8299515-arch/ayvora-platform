@@ -3,11 +3,9 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     app_name: str = "Ayvora API"
-    environment: str = "local"
+    environment: str = "production"
 
-    database_url: str = (
-        "postgresql+psycopg://ayvora:ayvora@postgres:5432/ayvora"
-    )
+    database_url: str
 
     redis_url: str = "redis://redis:6379/0"
 
