@@ -6,6 +6,7 @@ from app.core.config import settings
 from app.core.database import Base, engine
 from app.models.product import Product
 
+
 app = FastAPI(
     title=settings.app_name,
     version="0.1.0",
@@ -26,6 +27,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 app.include_router(
     catalog.router,
@@ -49,4 +51,3 @@ def health():
         "status": "ok",
         "service": "ayvora-api"
     }
-  
